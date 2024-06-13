@@ -3,62 +3,43 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const RegisterConsultant = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [qualification, setQualification] = useState('');
-  const [certificateUrl, setCertificateUrl] = useState('');
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    qualification: '',
+    certificate_url: ''
+  });
 
-  const handleRegisterConsultant = async () => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/consultant/register', {
-        username,
-        email,
-        password,
-        qualification,
-        certificateUrl
+      const response = await axios.post('http://localhost:5000/register/consultant', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
       });
-      console.log(response.data);
-      // Handle registration success (e.g., show a message)
+      console.log('Consultant registered:', response.data);
     } catch (error) {
-      console.error('Error registering consultant:', error);
+      console.error('Error registering consultant:', error.response.data);
     }
   };
 
   return (
     <div>
-      <h2>Register Consultant</h2>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Qualification"
-        value={qualification}
-        onChange={(e) => setQualification(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Certificate URL"
-        value={certificateUrl}
-        onChange={(e) => setCertificateUrl(e.target.value)}
-      />
-      <button onClick={handleRegisterConsultant}>Register</button>
+      <h2>Register as Consultant</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="username" placeholder="Username" onChange={handleChange} />
+        <input type="email" name="email" placeholder="Email" onChange={handleChange} />
+        <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+        <input type="text" name="qualification" placeholder="Qualification" onChange={handleChange} />
+        <input type="text" name="certificate_url" placeholder="Certificate URL" onChange={handleChange} />
+        <button type="submit">Register</button>
+      </form>
     </div>
   );
 };

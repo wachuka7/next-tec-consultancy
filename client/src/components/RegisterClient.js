@@ -9,13 +9,12 @@ const RegisterClient = () => {
 
   const handleRegisterClient = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/register', {
+      const response = await axios.post('http://localhost:5000/register/client', {
         username,
         email,
         password
       });
       console.log(response.data);
-      // Handle registration success (e.g., show a message)
     } catch (error) {
       console.error('Error registering client:', error);
     }
