@@ -109,6 +109,43 @@ class ClientRegisterResource(Resource):
 
         return {'message': 'Client registered successfully.'}, 201
     
+class ConsultantRegisterResource(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('username', type=str, required=True, help="Username cannot be blank!")
+        parser.add_argument('email', type=str, required=True, help="Email cannot be blank!")
+        parser.add_argument('password', type=str, required=True, help="Password cannot be blank!")
+        parser.add_argument('qualification', type=str, required=True, help="Qualification cannot be blank!")
+        parser.add_argument('certificate_url', type=str, required=True, help="Certificate URL cannot be blank!")
+        data = parser.parse_args()
+
+        existing_user = User.query.filter_by(email=data['email']).first()
+        if existing_user:
+            return {'message': 'A user with that email already exists'}, 400
+
+        is_certificate_valid = verify_certificate(data['certificate_url'])
+        if not is_certificate_valid:
+            return {'message': 'Invalid certificate.'}, 400
+
+        new_consultant = User(
+            username=data['username'],
+            email=data['email'],
+            password=data['password'],
+            role=Role.CONSULTANT,
+            qualification=data['qualification']
+        )
+        new_consultant.set_password(new_consultant.password)
+        db.session.add(new_consultant)
+        db.session.commit()
+
+        return {'message': 'Consultant registered successfully.'}, 201
+
+def verify_certificate(certificate_url):
+    if 'certificate' in certificate_url:
+        return True
+    else:
+        return False
+
 class LoginResource(Resource):
     def post(self):
         parser = reqparse.RequestParser()
