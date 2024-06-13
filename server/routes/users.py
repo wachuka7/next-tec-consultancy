@@ -1,17 +1,34 @@
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required, create_access_token
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 from functools import wraps
+import jwt
+from flask import request
 from models import db
 from models.user import User, Role
 
-def admin_required(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        claims = get_jwt_claims()
-        if claims['role'] != Role.CONSULTANT.value:
-            return {'message': 'Admin privileges required.'}, 403
-        return fn(*args, **kwargs)
-    return wrapper
+
+# def admin_required(fn):
+#     @wraps(fn)
+#     def wrapper(*args, **kwargs):
+#         # Get the JWT token from the Authorization header
+#         auth_header = request.headers.get('Authorization')
+#         if not auth_header:
+#             return {'message': 'Authorization header missing'}, 401
+
+#         # Extract the token from the Authorization header
+#         token = auth_header.split(" ")[1]
+
+#         # Decode the JWT token using PyJWT
+#         try:
+#             decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+#             role = decoded_token['role']  # Access the role claim
+#         except jwt.exceptions.InvalidTokenError:
+#             return {'message': 'Invalid token'}, 401
+
+#         if role != Role.CONSULTANT.value:
+#             return {'message': 'Admin privileges required.'}, 403
+#         return fn(*args, **kwargs)
+#     return wrapper
 
 class UserListResource(Resource):
     @jwt_required()
@@ -85,6 +102,50 @@ class UserResource(Resource):
 
         return {'message': 'User deleted successfully.'}
 
+class ConsultantListResource(Resource):
+    # @admin_required
+    def get(self):
+        consultants = User.query.filter_by(role=Role.CONSULTANT).all()
+        return [consultant.to_dict() for consultant in consultants]
+
+class ConsultantResource(Resource):
+    # @admin_required
+    def get(self, consultant_id):
+        consultant = User.query.get_or_404(consultant_id)
+        return consultant.to_dict()
+
+    # @admin_required
+    def put(self, consultant_id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('username', type=str)
+        parser.add_argument('email', type=str)
+        parser.add_argument('password', type=str)
+        parser.add_argument('qualification', type=str)
+        data = parser.parse_args()
+
+        consultant = User.query.get_or_404(consultant_id)
+
+        if data['username']:
+            consultant.username = data['username']
+        if data['email']:
+            consultant.email = data['email']
+        if data['password']:
+            consultant.password = data['password']
+        if data['qualification']:
+            consultant.qualification = data['qualification']
+
+        db.session.commit()
+
+        return {'message': 'Consultant updated successfully.'}
+
+    # @admin_required
+    def delete(self, consultant_id):
+        consultant = User.query.get_or_404(consultant_id)
+        db.session.delete(consultant)
+        db.session.commit()
+
+        return {'message': 'Consultant deleted successfully.'}
+
 class ClientRegisterResource(Resource):
     def post(self):
         parser = reqparse.RequestParser()
@@ -110,6 +171,11 @@ class ClientRegisterResource(Resource):
         return {'message': 'Client registered successfully.'}, 201
     
 class ConsultantRegisterResource(Resource):
+    # @admin_required
+    def get(self):
+        consultants = User.query.filter_by(role=Role.CONSULTANT).all()
+        return [consultant.to_dict() for consultant in consultants]
+    # @admin_required
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('username', type=str, required=True, help="Username cannot be blank!")
