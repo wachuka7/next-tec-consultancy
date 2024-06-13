@@ -13,7 +13,6 @@ def admin_required(fn):
         return fn(*args, **kwargs)
     return wrapper
 
-
 class UserListResource(Resource):
     @jwt_required()
     def get(self):
@@ -63,7 +62,6 @@ class UserResource(Resource):
 
         user = User.query.get_or_404(user_id)
 
-
         if data['username']:
             user.username = data['username']
         if data['email']:
@@ -78,6 +76,7 @@ class UserResource(Resource):
         db.session.commit()
 
         return {'message': 'User updated successfully.'}
+    
     @jwt_required()
     def delete(self, user_id):
         user = User.query.get_or_404(user_id)
@@ -85,6 +84,31 @@ class UserResource(Resource):
         db.session.commit()
 
         return {'message': 'User deleted successfully.'}
+
+class ClientRegisterResource(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('username', type=str, required=True, help="Username cannot be blank!")
+        parser.add_argument('email', type=str, required=True, help="Email cannot be blank!")
+        parser.add_argument('password', type=str, required=True, help="Password cannot be blank!")
+        data = parser.parse_args()
+
+        existing_user = User.query.filter_by(email=data['email']).first()
+        if existing_user:
+            return {'message': 'A user with that email already exists'}, 400
+
+        new_client = User(
+            username=data['username'],
+            email=data['email'],
+            password=data['password'],
+            role=Role.CLIENT
+        )
+        new_client.set_password(new_client.password)
+        db.session.add(new_client)
+        db.session.commit()
+
+        return {'message': 'Client registered successfully.'}, 201
+    
 class LoginResource(Resource):
     def post(self):
         parser = reqparse.RequestParser()
@@ -98,5 +122,3 @@ class LoginResource(Resource):
 
         access_token = create_access_token(identity=user.id, fresh=True, additional_claims={'role': user.role.value})
         return {'access_token': access_token}, 200
-
-

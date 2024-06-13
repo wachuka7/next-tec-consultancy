@@ -1,6 +1,7 @@
 from enum import Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db
+import re
 
 class Role(Enum):
     CLIENT = "client"
@@ -30,4 +31,18 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+    
+    def validate_password(password):
+
+        if len(password) < 8:
+            return False
+        if not re.search("[a-z]", password):
+            return False
+        if not re.search("[A-Z]", password):
+            return False
+        if not re.search("[0-9]", password):
+            return False
+        if not re.search("[!@#$%^&*(),.?\":{}|<>]", password):
+            return False
+        return True
 

@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from config import Config
 from models import db
-from routes.users import UserResource, UserListResource, LoginResource
+from routes.users import UserResource, UserListResource, LoginResource, ClientRegisterResource
 from routes.projects import ProjectResource, ProjectListResource
 
 
@@ -26,6 +26,8 @@ api.add_resource(UserResource, '/users/<int:user_id>')
 api.add_resource(ProjectListResource, '/projects')
 api.add_resource(ProjectResource, '/projects/<int:project_id>')
 api.add_resource(LoginResource, '/login')
+api.add_resource(ClientRegisterResource, '/register')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
