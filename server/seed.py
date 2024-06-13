@@ -12,6 +12,7 @@ with app.app_context():
         User(username='consultant3', email='consultant3@example.com', password='consultant3', role=Role.CONSULTANT, qualification='Financial Analyst with strong Excel and SQL skills'),
     ]
     for user in users:
+        user.set_password(user.password)
         db.session.add(user)
     db.session.commit()
 
