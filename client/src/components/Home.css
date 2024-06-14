@@ -5,6 +5,7 @@
     background-color: blanchedalmond;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     color: #060606; 
   }
   
@@ -16,7 +17,7 @@
   .sub-header {
     font-size: 1.2rem;
     font-style: italic;
-    color: #625555; /* Adjust text color for readability against the background */
+    color: #625555;
   }
   
   .section {

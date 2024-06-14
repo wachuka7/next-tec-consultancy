@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css'; // Import CSS file for styling
+import './Home.css';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -10,13 +10,12 @@ const Home = () => {
         <p className="sub-header">Connecting Clients with Expert Consultants</p>
       </div>
 
-      {/* Section for Clients */}
       <section className="section">
         <h2>For Clients</h2>
         <p>
           At Consultancy Hub, we specialize in connecting clients with expert consultants across a wide range of fields. Whether you're looking for guidance in web development, hosting solutions, data analysis, business strategy, investment advice, or any other specialized area, we're here to help you find the right expertise.
         </p>
-        <ul>
+        <>
           <li>
             <strong>Find Expert Consultants:</strong> Browse our extensive database of consultants who are ready to assist you with their specialized knowledge and skills. Search by industry, expertise, or specific service to find the perfect match for your consultancy needs.
           </li>
@@ -29,16 +28,15 @@ const Home = () => {
           <li>
             <strong>Stay Informed:</strong> Access industry insights, trends, and articles authored by our consultants to stay informed about the latest developments in your field of interest.
           </li>
-        </ul>
+        </>
       </section>
 
-      {/* Section for Consultants */}
       <section className="section">
         <h2>For Consultants</h2>
         <p>
           Whether you are an experienced consultant or just starting out, Consultancy Hub provides you with the platform to showcase your expertise and connect with clients seeking your consultancy services.
         </p>
-        <ul>
+        <>
           <li>
             <strong>Showcase Your Expertise:</strong> Create a professional profile highlighting your expertise, experience, and services offered. Showcase your portfolio, case studies, and client success stories to demonstrate your capabilities.
           </li>
@@ -51,7 +49,7 @@ const Home = () => {
           <li>
             <strong>Collaborate and Network:</strong> Connect with fellow consultants, collaborate on projects, and share knowledge within our community of experts.
           </li>
-        </ul>
+        </>
       </section>
 
       {/* How It Works Section */}
