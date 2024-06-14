@@ -25,8 +25,10 @@ const ConsultantPostFeed = () => {
       {posts.map((post) => (
         <div key={post.id}>
           <h3>{post.title}</h3>
+          <h2>{post.category}</h2> 
+          <h2 className="consultant-name">{post.consultant}</h2>
           <p>{post.content}</p>
-          <Link to={`/posts/${post.id}`}>Read More</Link>
+          <Link to={`/posts/${post.id}`}>View More</Link>
         </div>
       ))}
     </div>

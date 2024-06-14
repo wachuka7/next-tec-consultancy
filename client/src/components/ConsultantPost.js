@@ -22,14 +22,20 @@ const ConsultantPost = () => {
     if (!post) {
       return <p>Loading...</p>;
     }
+
+  const { user } = post;
+  if (!user) {
+    return <p>No author found for this post.</p>;
+  }
+  
     
   return (
     <div className="consultant-post">
       <div className="post-header">
-        <img src={post.author.photo} alt={post.author.name} className="author-photo" />
+        <img src={post.user.photo} alt={post.user.name} className="author-photo" />
         <div className="author-info">
-          <h3>{post.author.name}</h3>
-          <p>{post.author.title}</p>
+          <h3>{post.user.name}</h3>
+          <p>{post.user.title}</p>
         </div>
       </div>
       <div className="post-content">

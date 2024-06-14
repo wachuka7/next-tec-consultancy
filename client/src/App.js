@@ -89,8 +89,8 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             {/* <Route path="/login" element={<Login setAccessToken={setAccessToken} setIsLoggedIn={setIsLoggedIn} fetchUserData={fetchUserData} />} /> */}
-            <Route path="/consultants/:id" component={ConsultantProfile} />
-            <Route path="/posts/:id" component={ConsultantPost} />
+            <Route path="/consultants/:id" element={<ConsultantProfile/>} />
+            <Route path="/posts/:id" element={<ConsultantPost/>} />
             <Route path="/posts" element={<ConsultantPostFeed />} />
             <Route path="/consultants" element={<ConsultantDirectory />} />
             <Route path="/consultants/:id" element={<ConsultantProfile />} />
