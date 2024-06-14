@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 import './NavBar.css';
 
-
 const NavBar = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -44,27 +43,27 @@ const NavBar = () => {
             <li style={{ float: 'right', position: 'relative' }}>
               <button
                 onClick={toggleDropdown}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: 'blue',
-                  textDecoration: 'underline',
-                }}
+                // style={{
+                //   background: 'none',
+                //   border: 'none',
+                //   cursor: 'pointer',
+                //   color: 'blue',
+                //   textDecoration: 'underline',
+                // }}
               >
                 Register
               </button>
               {showDropdown && (
                 <ul
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    right: '0',
-                    background: 'white',
-                    border: '1px solid #ccc',
-                    padding: '10px',
-                    listStyleType: 'none',
-                  }}
+                  // style={{
+                  //   position: 'absolute',
+                  //   top: '100%',
+                  //   right: '0',
+                  //   background: 'white',
+                  //   border: '1px solid #ccc',
+                  //   padding: '10px',
+                  //   listStyleType: 'none',
+                  // }}
                 >
                   <li>
                     <Link to="/register/user" onClick={() => setShowDropdown(false)}>
