@@ -1,82 +1,173 @@
-from models.user import User, Role
-from models.project import Project
+import random
+from faker import Faker
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from models.consultant import Consultant, ConsultantRole
 from models.post import Post
-from models import db
-from app import app
+from models.project import Project
+from models.client import Client, ClientRole
 import re
+from app import app
+from models import db
 
-
+fake = Faker()
 
 def validate_password(password):
+    if len(password) < 8:
+        return False
+    if not re.search("[a-z]", password):
+        return False
+    if not re.search("[A-Z]", password):
+        return False
+    if not re.search("[0-9]", password):
+        return False
+    if not re.search("[!@#$%^&*(),.?\":{}|<>]", password):
+        return False
+    return True
 
-        if len(password) < 8:
-            return False
-        if not re.search("[a-z]", password):
-            return False
-        if not re.search("[A-Z]", password):
-            return False
-        if not re.search("[0-9]", password):
-            return False
-        if not re.search("[!@#$%^&*(),.?\":{}|<>]", password):
-            return False
-        return True
+def seed_clients():
+    with app.app_context():
+        clients_data = [
+            {
+                'username': 'client1',
+                'email': 'client1@example.com',
+                'password': 'Client1@password',
+                'role': ClientRole.CLIENT
+            },
+            {
+                'username': 'client2',
+                'email': 'client2@example.com',
+                'password': 'Client2@password',
+                'role': ClientRole.CLIENT
+            },
+            {
+                'username': 'client3',
+                'email': 'client3@example.com',
+                'password': 'Client3@password',
+                'role': ClientRole.CLIENT
+            },
+            {
+                'username': 'client4',
+                'email': 'client4@example.com',
+                'password': 'Client4@password',
+                'role': ClientRole.CLIENT
+            },
+            {
+                'username': 'client5',
+                'email': 'client5@example.com',
+                'password': 'Client5@password',
+                'role': ClientRole.CLIENT
+            }
+        ]
+
+        for client_data in clients_data:
+            if validate_password(client_data['password']):
+                client = Client(**client_data)
+                client.set_password(client_data['password'])
+                db.session.add(client)
+            else:
+                print(f"Invalid password for {client_data['username']}")
+
+        db.session.commit()
+
+def seed_consultants():
+    with app.app_context():
+        consultants_data = [
+            {
+                'username': 'consultant1',
+                'email': 'consultant1@example.com',
+                'password': 'Consultant1@password',
+                'qualification': 'PhD in Psychology',
+                'role': ConsultantRole.CONSULTANT
+            },
+            {
+                'username': 'consultant2',
+                'email': 'consultant2@example.com',
+                'password': 'Consultant2@password',
+                'qualification': 'MSc in Finance',
+                'role': ConsultantRole.CONSULTANT
+            },
+            {
+                'username': 'consultant3',
+                'email': 'consultant3@example.com',
+                'password': 'Consultant3@password',
+                'qualification': 'MD in Medicine',
+                'role': ConsultantRole.CONSULTANT
+            },
+            {
+                'username': 'consultant4',
+                'email': 'consultant4@example.com',
+                'password': 'Consultant4@password',
+                'qualification': 'PhD in Physics',
+                'role': ConsultantRole.CONSULTANT
+            },
+            {
+                'username': 'consultant5',
+                'email': 'consultant5@example.com',
+                'password': 'Consultant5@password',
+                'qualification': 'MA in Literature',
+                'role': ConsultantRole.CONSULTANT
+            }
+        ]
+
+        for consultant_data in consultants_data:
+            if validate_password(consultant_data['password']):
+                consultant = Consultant(**consultant_data)
+                consultant.set_password(consultant_data['password'])
+                db.session.add(consultant)
+            else:
+                print(f"Invalid password for {consultant_data['username']}")
+
+        db.session.commit()
 
 
-with app.app_context():
-    users = [
-        User(username='john.doe', email='john.doe@example.com', password='Password@123', role=Role.CLIENT),
-        User(username='jane.doe', email='jane.doe@example.com', password='Password@456', role=Role.CLIENT),
-        User(username='consultant1', email='consultant1@example.com', password='Consultant@1', role=Role.CONSULTANT, qualification='Expert in Python and Data Science'),
-        User(username='consultant2', email='consultant2@example.com', password='Consultant@2', role=Role.CONSULTANT, qualification='Experienced Web Developer with React and Node.js'),
-        User(username='consultant3', email='consultant3@example.com', password='Consultant@3', role=Role.CONSULTANT, qualification='Financial Analyst with strong Excel and SQL skills'),
-    ]
-    for user in users:
-        if validate_password(user.password):
-            user.set_password(user.password)
-            db.session.add(user)
-        else:
-            print(f"Invalid password for user: {user.username}")
-    db.session.commit()
+def seed_posts():
+    with app.app_context():
+        consultants = Consultant.query.all()
 
-    projects = [
-        Project(name='Website Development', description='Build a new website for my business', client_request='Need a modern and responsive website with e-commerce functionality', client_id=users[0].id, user_id=users[2].id),
-        Project(name='Data Analysis', description='Analyze sales data to identify trends', client_request='Need help understanding sales patterns and predicting future trends', client_id=users[1].id, user_id=users[3].id),
-        Project(name='Financial Modeling', description='Create a financial model for a new project', client_request='Need a detailed financial model to assess the viability of a new investment', client_id=users[0].id, user_id=users[4].id),
-    ]
-    for project in projects:
-        db.session.add(project)
-    db.session.commit()
+        if not consultants:
+            print("No consultants found. Seed consultants first.")
+            return
 
-    # Seed some posts for the consultants
-    posts = [
-        {
-            'title': 'Introduction to Python for Beginners',
-            'content': 'This post will guide you through the basics of Python programming, covering data types, variables, and control flow.',
-            'user_id': users[2].username
-        },
-        {
-            'title': 'Building a React App with a Node.js Backend',
-            'content': 'Learn how to create a full-stack web application using React for the frontend and Node.js for the backend.',
-            'user_id': users[3].username
-        },
-        {
-            'title': 'Financial Modeling with Excel and SQL',
-            'content': 'This post explores how to use Excel and SQL to create powerful financial models for business analysis.',
-            'user_id': users[4].username
-        },
-        {
-            'title': 'Advanced Python Data Structures',
-            'content': 'Dive deeper into advanced Python data structures like dictionaries, sets, and tuples.',
-            'user_id': users[2].username 
-        },
-        {
-            'title': 'Best Practices for React Development',
-            'content': 'Learn about best practices for building maintainable and scalable React applications.',
-            'user_id': users[3].username
-        }
-    ]
+        for _ in range(20):
+            random_consultant = random.choice(consultants)
+  
+            title = fake.sentence()
+            content = fake.paragraph()
 
-    for post_data in posts:
-        post = Post(**post_data)
-        db.session.add(post)
-    db.session.commit()
+            new_post = Post(title=title, content=content, user_id=random_consultant.id)
+
+            db.session.add(new_post)
+        db.session.commit()
+
+def seed_projects():
+    with app.app_context():
+        clients = Client.query.all()
+        consultants = Consultant.query.all()
+
+        for _ in range(10):
+            random_client = random.choice(clients)
+            random_consultant = random.choice(consultants)
+            name = fake.company()
+            description = fake.catch_phrase()
+            client_request = fake.text()
+
+            new_project = Project(
+                name=name,
+                description=description,
+                client_id=random_client.id,
+                consultant_id=random_consultant.id,
+                client_request=client_request
+            )
+            db.session.add(new_project)
+
+        db.session.commit()
+
+if __name__ == '__main__':
+    seed_consultants()
+    seed_clients()
+    seed_posts()
+    seed_projects()
+    
+   
+

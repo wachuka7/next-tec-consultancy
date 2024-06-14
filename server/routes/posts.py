@@ -3,7 +3,7 @@ from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import jwt
 from models import db
-from models.user import User, Role
+from models.consultant import Consultant, ConsultantRole
 from models.post import Post
 
 class PostResource(Resource):
@@ -15,8 +15,8 @@ class PostResource(Resource):
     def post(self):
         current_user_id = get_jwt_identity()
 
-        current_user = User.query.get_or_404(current_user_id)
-        if current_user.role != Role.CONSULTANT:
+        current_user = Consultant.query.get_or_404(current_user_id)
+        if current_user.role != ConsultantRole.CONSULTANT:
             return {'message': 'Only consultants can create posts'}, 403
 
         parser = reqparse.RequestParser()
