@@ -19,10 +19,10 @@ class Consultant(db.Model):
     linkedin = db.Column(db.String(200))  # New field: LinkedIn URL
     twitter = db.Column(db.String(200))  # New field: Twitter URL
     about = db.Column(db.Text)  # New field: About Me
-    projects = db.Column(db.Text)  
     testimonials = db.Column(db.Text)
 
     role = db.Column(db.String(20), default=ConsultantRole.CONSULTANT)
+    projects = db.relationship('Project', backref='consultant', lazy=True)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -43,7 +43,6 @@ class Consultant(db.Model):
             'linkedin': self.linkedin,
             'twitter': self.twitter,
             'about': self.about,
-            'projects': self.projects.split(',') if self.projects else [],
             'testimonials': self.testimonials.split(',') if self.testimonials else [],
             'role': self.role
         }

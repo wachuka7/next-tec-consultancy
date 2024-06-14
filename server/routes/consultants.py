@@ -53,7 +53,7 @@ class ConsultantResource(Resource):
         parser.add_argument('linkedin', type=str)
         parser.add_argument('twitter', type=str)
         parser.add_argument('about', type=str)
-        parser.add_argument('projects', type=list)
+        # parser.add_argument('projects', type=list)
         parser.add_argument('testimonials', type=list)
         data = parser.parse_args()
 
@@ -81,8 +81,8 @@ class ConsultantResource(Resource):
             consultant.twitter = data['twitter']
         if data['about']:
             consultant.about = data['about']
-        if data['projects']:
-            consultant.projects = data['projects']
+        # if data['projects']:
+        #     consultant.projects = data['projects']
         if data['testimonials']:
             consultant.testimonials = data['testimonials']
 

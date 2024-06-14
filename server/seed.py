@@ -86,7 +86,7 @@ def seed_consultants():
                 'linkedin': 'https://www.linkedin.com/consultant1',
                 'twitter': 'https://twitter.com/consultant1',
                 'about': 'Experienced psychologist with a focus on cognitive behavioral therapy.',
-                'projects': json.dumps(['Study on Anxiety Disorders', 'Family Counseling Program']),
+                # 'projects': json.dumps(['Study on Anxiety Disorders', 'Family Counseling Program']),
                 'testimonials': json.dumps(['Great experience working with consultant1.', 'Highly recommend.'])
             },
             {
@@ -99,7 +99,7 @@ def seed_consultants():
                 'linkedin': 'https://www.linkedin.com/consultant2',
                 'twitter': 'https://twitter.com/consultant2',
                 'about': 'Financial consultant specializing in investment planning and financial analysis.',
-                'projects': json.dumps(['Market Analysis Report', 'Investment Portfolio Management']),
+                # 'projects': json.dumps(['Market Analysis Report', 'Investment Portfolio Management']),
                 'testimonials':json.dumps(['Very knowledgeable and helpful.', 'Made a significant impact on our financial strategy.'])
             },
             {
@@ -112,7 +112,7 @@ def seed_consultants():
                 'linkedin': 'https://www.linkedin.com/consultant3',
                 'twitter': 'https://twitter.com/consultant3',
                 'about': 'Specializing in cardiology with extensive experience in pediatric care.',
-                'projects': json.dumps(['Research on Heart Disease Prevention', 'Pediatric Health Initiative']),
+                # 'projects': json.dumps(['Research on Heart Disease Prevention', 'Pediatric Health Initiative']),
                 'testimonials': json.dumps(['Dr. Consultant3 saved my child\'s life!', 'Highly skilled and compassionate physician.'])
             },
             {
@@ -125,7 +125,7 @@ def seed_consultants():
                 'linkedin': 'https://www.linkedin.com/consultant5',
                 'twitter': 'https://twitter.com/consultant5',
                 'about': 'Passionate about literature and promoting creative writing skills.',
-                'projects': json.dumps(['Literary Analysis of Classic Novels', 'Creative Writing Program for Schools']),
+                # 'projects': json.dumps(['Literary Analysis of Classic Novels', 'Creative Writing Program for Schools']),
                 'testimonials': json.dumps(['An inspiring teacher and mentor.', 'Transformed my approach to literature.'])
             },
             {
@@ -138,7 +138,7 @@ def seed_consultants():
                 'linkedin': 'https://www.linkedin.com/consultant7',
                 'twitter': 'https://twitter.com/consultant7',
                 'about': 'Expertise in machine learning algorithms and scalable software design.',
-                'projects': json.dumps(['Development of AI-driven Applications', 'Optimization of Cloud-based Systems']),
+                # 'projects': json.dumps(['Development of AI-driven Applications', 'Optimization of Cloud-based Systems']),
                 'testimonials': json.dumps(['Outstanding technical knowledge and problem-solving skills.', 'Delivered exceptional results on our AI project.'])
             }
         ]
@@ -179,7 +179,7 @@ def seed_projects():
         consultants = Consultant.query.all()
 
         for _ in range(10):
-            random_client = random.choice(clients)
+            # random_client = random.choice(clients)
             random_consultant = random.choice(consultants)
             name = fake.company()
             description = fake.catch_phrase()
@@ -188,7 +188,7 @@ def seed_projects():
             new_project = Project(
                 name=name,
                 description=description,
-                client_id=random_client.id,
+                # client_id=random_client.id,
                 consultant_id=random_consultant.id,
                 client_request=client_request
             )

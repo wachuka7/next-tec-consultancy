@@ -6,9 +6,13 @@ from app import db
 
 class ProjectListResource(Resource):
     def get(self):
-        projects = Project.query.all()
-        return jsonify([project.to_dict() for project in projects])
-
+        consultant_id = request.args.get('consultant_id')
+        if consultant_id:
+            projects = Project.query.filter_by(consultant_id=consultant_id).all()
+        else:
+            projects = Project.query.all()
+        return [project.to_dict() for project in projects], 200
+    
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, required=True, help="Name cannot be blank!")
@@ -20,7 +24,7 @@ class ProjectListResource(Resource):
 
         new_project = Project(name=data['name'], 
                               description=data['description'], 
-                              client_id=data['client_id'], 
+                            #   client_id=data['client_id'], 
                               consultant_id=data['consultant_id'], 
                               client_request=data['client_request'])
         db.session.add(new_project)
