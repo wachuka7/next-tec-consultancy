@@ -18,12 +18,14 @@ const ConsultantProfile = () => {
       }
     };
 
-    fetchConsultant(); // Initial fetch when id changes
-  }, [id]); // Dependency array includes id
+    fetchConsultant(); 
+  }, [id]); 
 
   if (!consultant) {
-    return <div>Loading...</div>; // Add loading state
+    return <div>Loading...</div>; 
   }
+
+  
 
   return (
     <div className="consultant-profile">
@@ -43,21 +45,31 @@ const ConsultantProfile = () => {
       <div className="profile-details">
         <h3>About Me</h3>
         <p>{consultant.about}</p>
-        <h3>Past Projects</h3>
-        <ul>
-          {consultant.projects.map((project, index) => (
-            <li key={index}>{project}</li>
-          ))}
-        </ul>
-        <h3>Client Testimonials</h3>
-        <ul>
-          {consultant.testimonials.map((testimonial, index) => (
-            <li key={index}>{testimonial}</li>
-          ))}
-        </ul>
+        <h3>Past Projects: </h3>
+        <p>{consultant.projects.join(', ')}</p>
+        <h3>Client Testimonials:</h3>
+        <p>{consultant.testimonials.join(', ')}</p>
       </div>
     </div>
   );
 };
 
 export default ConsultantProfile;
+
+//         {/* <ul>
+//           {consultant.projects.map((project, index) => (
+//             <li key={index}>{project}</li>
+//           ))}
+//         </ul> */}
+//         <h3>Client Testimonials</h3>
+//         <ul>
+//           {consultant.testimonials.map((testimonial, index) => (
+//             <li key={index}>{testimonial}</li>
+//           ))}
+//         </ul>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ConsultantProfile;
