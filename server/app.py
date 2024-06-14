@@ -9,7 +9,7 @@ from models import db
 from routes.clients import ClientListResource, ClientResource, ClientLoginResource, ClientRegisterResource
 from routes.consultants import ConsultantRegisterResource, ConsultantResource, ConsultantListResource, ConsultantLoginResource
 from routes.projects import ProjectResource, ProjectListResource
-from routes.posts import PostResource
+from routes.posts import PostResource, PostListResource
 # from routes.services import ServiceResource
 
 
@@ -39,7 +39,8 @@ api.add_resource(ConsultantLoginResource, '/consultants/login')
 api.add_resource(ProjectListResource, '/projects')
 api.add_resource(ProjectResource, '/projects/<int:project_id>')
 
-api.add_resource(PostResource, '/posts')
+api.add_resource(PostListResource, '/posts')
+api.add_resource(PostResource, '/posts/<int:post_id>')
 
 
 # api.add_resource(ServiceResource, '/services', '/services/<int:service_id>')

@@ -159,14 +159,16 @@ def seed_posts():
         if not consultants:
             print("No consultants found. Seed consultants first.")
             return
+        categories = ['Data Science', 'Software Engineering', 'Business', 'Leadership', 'Financial Services', 'Education', 'Health', 'Lifestyle']
 
         for _ in range(20):
             random_consultant = random.choice(consultants)
   
             title = fake.sentence()
             content = fake.paragraph()
+            category = random.choice(categories)
 
-            new_post = Post(title=title, content=content, user_id=random_consultant.id)
+            new_post = Post(title=title, content=content, category=category, user_id=random_consultant.id)
 
             db.session.add(new_post)
         db.session.commit()

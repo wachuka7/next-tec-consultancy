@@ -43,7 +43,7 @@ class Consultant(db.Model):
             'linkedin': self.linkedin,
             'twitter': self.twitter,
             'about': self.about,
-            'projects': self.projects,
-            'testimonials': self.testimonials,
+            'projects': self.projects.split(',') if self.projects else [],
+            'testimonials': self.testimonials.split(',') if self.testimonials else [],
             'role': self.role
         }
