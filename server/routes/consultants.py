@@ -15,8 +15,7 @@ class ConsultantRegisterResource(Resource):
         parser.add_argument('email', type=str, required=True, help="Email cannot be blank!")
         parser.add_argument('password', type=str, required=True, help="Password cannot be blank!")
         parser.add_argument('qualification', type=str, required=True, help="Qualification cannot be blank!")
-        parser.add_argument('photo', type=str)
-        parser.add_argument('bio', type=str)
+        
         data = parser.parse_args()
 
         existing_consultant = Consultant.query.filter_by(email=data['email']).first()
@@ -49,6 +48,13 @@ class ConsultantResource(Resource):
         parser.add_argument('qualification', type=str)
         parser.add_argument('photo', type=str)
         parser.add_argument('bio', type=str)
+        parser.add_argument('location', type=str) 
+        parser.add_argument('services', type=list)
+        parser.add_argument('linkedin', type=str)
+        parser.add_argument('twitter', type=str)
+        parser.add_argument('about', type=str)
+        parser.add_argument('projects', type=list)
+        parser.add_argument('testimonials', type=list)
         data = parser.parse_args()
 
         consultant = Consultant.query.get_or_404(consultant_id)
@@ -65,6 +71,20 @@ class ConsultantResource(Resource):
             consultant.photo = data['photo']
         if data['bio']:
             consultant.bio = data['bio']
+        if data['location']:
+            consultant.location = data['location']
+        if data['services']:
+            consultant.services = data['services']
+        if data['linkedin']:
+            consultant.linkedin = data['linkedin']
+        if data['twitter']:
+            consultant.twitter = data['twitter']
+        if data['about']:
+            consultant.about = data['about']
+        if data['projects']:
+            consultant.projects = data['projects']
+        if data['testimonials']:
+            consultant.testimonials = data['testimonials']
 
         db.session.commit()
 

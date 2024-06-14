@@ -6,9 +6,12 @@ from models.consultant import Consultant, ConsultantRole
 from models.post import Post
 from models.project import Project
 from models.client import Client, ClientRole
+# from models.service import Service
 import re
 from app import app
 from models import db
+import json
+
 
 fake = Faker()
 
@@ -78,38 +81,67 @@ def seed_consultants():
                 'email': 'consultant1@example.com',
                 'password': 'Consultant1@password',
                 'qualification': 'PhD in Psychology',
-                'role': ConsultantRole.CONSULTANT
+                'location': 'New York, USA',
+                'services': json.dumps(['Cognitive Behavioral Therapy', 'Family Counseling']),
+                'linkedin': 'https://www.linkedin.com/consultant1',
+                'twitter': 'https://twitter.com/consultant1',
+                'about': 'Experienced psychologist with a focus on cognitive behavioral therapy.',
+                'projects': json.dumps(['Study on Anxiety Disorders', 'Family Counseling Program']),
+                'testimonials': json.dumps(['Great experience working with consultant1.', 'Highly recommend.'])
             },
             {
                 'username': 'consultant2',
                 'email': 'consultant2@example.com',
                 'password': 'Consultant2@password',
                 'qualification': 'MSc in Finance',
-                'role': ConsultantRole.CONSULTANT
+                'location': 'London, UK',
+                'services': json.dumps(['Financial Analysis', 'Investment Planning']),
+                'linkedin': 'https://www.linkedin.com/consultant2',
+                'twitter': 'https://twitter.com/consultant2',
+                'about': 'Financial consultant specializing in investment planning and financial analysis.',
+                'projects': json.dumps(['Market Analysis Report', 'Investment Portfolio Management']),
+                'testimonials':json.dumps(['Very knowledgeable and helpful.', 'Made a significant impact on our financial strategy.'])
             },
             {
                 'username': 'consultant3',
                 'email': 'consultant3@example.com',
                 'password': 'Consultant3@password',
                 'qualification': 'MD in Medicine',
-                'role': ConsultantRole.CONSULTANT
-            },
-            {
-                'username': 'consultant4',
-                'email': 'consultant4@example.com',
-                'password': 'Consultant4@password',
-                'qualification': 'PhD in Physics',
-                'role': ConsultantRole.CONSULTANT
+                'location': 'Los Angeles, USA',
+                'services': json.dumps(['Cardiology', 'Pediatrics']),
+                'linkedin': 'https://www.linkedin.com/consultant3',
+                'twitter': 'https://twitter.com/consultant3',
+                'about': 'Specializing in cardiology with extensive experience in pediatric care.',
+                'projects': json.dumps(['Research on Heart Disease Prevention', 'Pediatric Health Initiative']),
+                'testimonials': json.dumps(['Dr. Consultant3 saved my child\'s life!', 'Highly skilled and compassionate physician.'])
             },
             {
                 'username': 'consultant5',
                 'email': 'consultant5@example.com',
                 'password': 'Consultant5@password',
                 'qualification': 'MA in Literature',
-                'role': ConsultantRole.CONSULTANT
+                'location': 'London, UK',
+                'services': json.dumps(['Literary Criticism', 'Creative Writing Workshops']),
+                'linkedin': 'https://www.linkedin.com/consultant5',
+                'twitter': 'https://twitter.com/consultant5',
+                'about': 'Passionate about literature and promoting creative writing skills.',
+                'projects': json.dumps(['Literary Analysis of Classic Novels', 'Creative Writing Program for Schools']),
+                'testimonials': json.dumps(['An inspiring teacher and mentor.', 'Transformed my approach to literature.'])
+            },
+            {
+                'username': 'consultant7',
+                'email': 'consultant7@example.com',
+                'password': 'Consultant7@password',
+                'qualification': 'PhD in Computer Science',
+                'location': 'San Francisco, USA',
+                'services': json.dumps(['Machine Learning', 'Software Architecture']),
+                'linkedin': 'https://www.linkedin.com/consultant7',
+                'twitter': 'https://twitter.com/consultant7',
+                'about': 'Expertise in machine learning algorithms and scalable software design.',
+                'projects': json.dumps(['Development of AI-driven Applications', 'Optimization of Cloud-based Systems']),
+                'testimonials': json.dumps(['Outstanding technical knowledge and problem-solving skills.', 'Delivered exceptional results on our AI project.'])
             }
         ]
-
         for consultant_data in consultants_data:
             if validate_password(consultant_data['password']):
                 consultant = Consultant(**consultant_data)
@@ -119,7 +151,6 @@ def seed_consultants():
                 print(f"Invalid password for {consultant_data['username']}")
 
         db.session.commit()
-
 
 def seed_posts():
     with app.app_context():
@@ -162,6 +193,42 @@ def seed_projects():
             db.session.add(new_project)
 
         db.session.commit()
+
+# def seed_services():
+#     with app.app_context():
+#         services = [
+#             {
+#                 'name': 'Web Development',
+#                 'description': 'Expert web development services, including custom websites, e-commerce platforms, and mobile-responsive designs.',
+#                 'consultant_id': 1  
+#             },
+#             {
+#                 'name': 'Data Analysis',
+#                 'description': 'Data-driven insights and solutions using advanced analytics techniques. We help you understand your data and make informed decisions.',
+#                 'consultant_id': 2 
+#             },
+#             {
+#                 'name': 'Marketing Strategy',
+#                 'description': 'Develop and implement effective marketing strategies to reach your target audience and achieve your business goals.',
+#                 'consultant_id': 1  
+#             },
+#             {
+#                 'name': 'Project Management',
+#                 'description': 'Experienced project managers to guide your projects from initiation to completion, ensuring on-time and on-budget delivery.',
+#                 'consultant_id': 3 
+#             }
+#         ]
+
+
+#         for service_data in services:
+#             new_service = Service(
+#                 name=service_data['name'],
+#                 description=service_data['description'],
+#                 consultant_id=service_data['consultant_id']
+#             )
+#             db.session.add(new_service)
+
+#         db.session.commit()
 
 if __name__ == '__main__':
     seed_consultants()

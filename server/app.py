@@ -10,6 +10,8 @@ from routes.clients import ClientListResource, ClientResource, ClientLoginResour
 from routes.consultants import ConsultantRegisterResource, ConsultantResource, ConsultantListResource, ConsultantLoginResource
 from routes.projects import ProjectResource, ProjectListResource
 from routes.posts import PostResource
+# from routes.services import ServiceResource
+
 
 
 app = Flask(__name__)
@@ -38,6 +40,9 @@ api.add_resource(ProjectListResource, '/projects')
 api.add_resource(ProjectResource, '/projects/<int:project_id>')
 
 api.add_resource(PostResource, '/posts')
+
+
+# api.add_resource(ServiceResource, '/services', '/services/<int:service_id>')
 
 
 if __name__ == '__main__':

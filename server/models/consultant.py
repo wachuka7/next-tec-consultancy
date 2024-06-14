@@ -14,6 +14,14 @@ class Consultant(db.Model):
     qualification = db.Column(db.String(200))
     photo = db.Column(db.String(200))
     bio = db.Column(db.Text)
+    location = db.Column(db.String(100))  # New field: Location
+    services = db.Column(db.Text)  # New field: Services (array of strings)
+    linkedin = db.Column(db.String(200))  # New field: LinkedIn URL
+    twitter = db.Column(db.String(200))  # New field: Twitter URL
+    about = db.Column(db.Text)  # New field: About Me
+    projects = db.Column(db.Text)  
+    testimonials = db.Column(db.Text)
+
     role = db.Column(db.String(20), default=ConsultantRole.CONSULTANT)
 
     def set_password(self, password):
@@ -30,5 +38,12 @@ class Consultant(db.Model):
             'qualification': self.qualification,
             'photo': self.photo,
             'bio': self.bio,
+            'location': self.location,
+            'services': self.services.split(',') if self.services else [],
+            'linkedin': self.linkedin,
+            'twitter': self.twitter,
+            'about': self.about,
+            'projects': self.projects,
+            'testimonials': self.testimonials,
             'role': self.role
         }
