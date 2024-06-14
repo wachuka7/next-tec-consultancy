@@ -13,9 +13,9 @@ import RegisterConsultant from './components/RegisterConsultant';
 import ConsultantProfile from './components/ConsultantProfile'; 
 import ConsultantPost from './components/ConsultantPost';
 import ConsultantPostFeed from './components/ConsultantPostFeed';
+import ConsultantDirectory from './components/ConsultantDirectory';
 
 import './App.css';
-
 
 const App = () => {
   // const { accessToken, setAccessToken, isLoggedIn, setIsLoggedIn, currentUser, setCurrentUser } = useContext(AuthContext);
@@ -92,6 +92,7 @@ const App = () => {
             <Route path="/consultants/:id" component={ConsultantProfile} />
             <Route path="/posts/:id" component={ConsultantPost} />
             <Route path="/posts" element={<ConsultantPostFeed />} />
+            <Route path="/consultants" element={<ConsultantDirectory />} />
             <Route path="/register/consultant" component={RegisterConsultant} />
             <Route path="/register/client" component={RegisterClient} />
             {/* {!isLoggedIn && (

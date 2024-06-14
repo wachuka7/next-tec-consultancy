@@ -1,4 +1,4 @@
-// ConsultantDirectory.js
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -24,8 +24,8 @@ const ConsultantDirectory = () => {
       <h2>Find Expert Consultants</h2>
       {consultants.map((consultant) => (
         <div key={consultant.id}>
-          <h3>{consultant.name}</h3>
-          <p>{consultant.bio}</p>
+          <h3>{consultant.username}</h3>
+          <p>{consultant.qualification}</p>
           <Link to={`/consultants/${consultant.id}`}>View Profile</Link>
         </div>
       ))}
