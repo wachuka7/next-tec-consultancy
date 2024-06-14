@@ -1,4 +1,3 @@
-// ConsultantProfile.js
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -7,6 +6,7 @@ import axios from 'axios';
 const ConsultantProfile = () => {
   const { id } = useParams();
   const [consultant, setConsultant] = useState(null);
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     const fetchConsultant = async () => {
@@ -21,11 +21,22 @@ const ConsultantProfile = () => {
     fetchConsultant(); 
   }, [id]); 
 
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/projects?consultant_id=${id}`);
+        setProjects(response.data);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
+    };
+
+    fetchProjects();
+  }, [id]);
+
   if (!consultant) {
     return <div>Loading...</div>; 
   }
-
-  
 
   return (
     <div className="consultant-profile">
@@ -45,8 +56,15 @@ const ConsultantProfile = () => {
       <div className="profile-details">
         <h3>About Me</h3>
         <p>{consultant.about}</p>
-        <h3>Past Projects: </h3>
-        <p>{consultant.projects.join(', ')}</p>
+        <h3>Past Projects</h3>
+        <ul>
+          {projects.map(project => (
+            <li key={project.id}>
+              <h4>{project.name}</h4>
+              <p>{project.description}</p>
+            </li>
+          ))}
+        </ul>
         <h3>Client Testimonials:</h3>
         <p>{consultant.testimonials.join(', ')}</p>
       </div>
@@ -55,21 +73,3 @@ const ConsultantProfile = () => {
 };
 
 export default ConsultantProfile;
-
-//         {/* <ul>
-//           {consultant.projects.map((project, index) => (
-//             <li key={index}>{project}</li>
-//           ))}
-//         </ul> */}
-//         <h3>Client Testimonials</h3>
-//         <ul>
-//           {consultant.testimonials.map((testimonial, index) => (
-//             <li key={index}>{testimonial}</li>
-//           ))}
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ConsultantProfile;

@@ -6,14 +6,14 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="header">
-        <h1>Welcome to Consultancy Hub</h1>
+        <h1>Welcome to Next-Tec Consultancy</h1>
         <p className="sub-header">Connecting Clients with Expert Consultants</p>
       </div>
 
       <section className="section">
         <h2>For Clients</h2>
         <p>
-          At Consultancy Hub, we specialize in connecting clients with expert consultants across a wide range of fields. Whether you're looking for guidance in web development, hosting solutions, data analysis, business strategy, investment advice, or any other specialized area, we're here to help you find the right expertise.
+          At Next-Tec Consultancy, we specialize in connecting clients with expert consultants across a wide range of fields. Whether you're looking for guidance in web development, hosting solutions, data analysis, business strategy, investment advice, or any other specialized area, we're here to help you find the right expertise.
         </p>
         <>
           <li>
