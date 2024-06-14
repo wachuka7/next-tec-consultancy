@@ -32,10 +32,10 @@ const ConsultantPost = () => {
   return (
     <div className="consultant-post">
       <div className="post-header">
-        <img src={post.user.photo} alt={post.user.name} className="author-photo" />
+        <img src={user.photo} alt={user.username} className="author-photo" />
         <div className="author-info">
-          <h3>{post.user.name}</h3>
-          <p>{post.user.title}</p>
+          <h3>{user.username}</h3>
+          <p>{user.qualification}</p>
         </div>
       </div>
       <div className="post-content">
