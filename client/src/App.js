@@ -93,6 +93,7 @@ const App = () => {
             <Route path="/posts/:id" component={ConsultantPost} />
             <Route path="/posts" element={<ConsultantPostFeed />} />
             <Route path="/consultants" element={<ConsultantDirectory />} />
+            <Route path="/consultants/:id" element={<ConsultantProfile />} />
             <Route path="/register/consultant" component={RegisterConsultant} />
             <Route path="/register/client" component={RegisterClient} />
             {/* {!isLoggedIn && (
